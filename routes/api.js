@@ -2,8 +2,11 @@ const express = require('express');
 const route = express.Router();
 
 //controller 
-const testController = require('../controllers/test');
+const groupController = require('../controllers/group');
 
-route.get('/test', testController.testController);
+//api group laundry
+route.get('/groups', groupController.getGroups);
+route.post('/groups', groupController.postGroup);
+route.patch('/group/:id', groupController.patchGroup);
 
 module.exports = route;

@@ -34,8 +34,8 @@ app.use(function (req, res, next) {
 //connect mongo
 require('./configs/connect-mongo');
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 

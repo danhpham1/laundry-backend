@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
+
 const GroupsLaundrySchema = new mongoose.Schema({
     name: {
         type: String,
@@ -20,6 +22,8 @@ const GroupsLaundrySchema = new mongoose.Schema({
         default: false
     }
 })
+
+GroupsLaundrySchema.plugin(aggregatePaginate);
 
 
 module.exports = mongoose.model('groups_laundry', GroupsLaundrySchema);
