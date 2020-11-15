@@ -40,7 +40,7 @@ module.exports.postGroup = async (req, res) => {
         await group.save();
         res.status(200).json({
             success: true,
-            data: group
+            results: group
         })
     } catch (error) {
         res.status(500).json({

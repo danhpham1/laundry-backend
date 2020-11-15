@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const NamesLaundrySchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true,
     },
     createAt: {
@@ -25,9 +27,10 @@ const NamesLaundrySchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        required: true,
     }
 })
 
+NamesLaundrySchema.plugin(aggregatePaginate);
 
 module.exports = mongoose.model('names_laundry', NamesLaundrySchema);
