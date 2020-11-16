@@ -13,5 +13,6 @@ route.patch('/group/:id', groupController.patchGroup);
 //api name laundry
 route.get('/names', nameController.getNameLaundry);
 route.post('/names', nameController.postNameLaundry);
+route.patch('/name/:id', nameController.pathchNameLaundry);
 
 module.exports = route;

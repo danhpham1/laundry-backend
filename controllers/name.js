@@ -45,3 +45,40 @@ module.exports.postNameLaundry = async (req, res) => {
         })
     }
 }
+
+//patch name
+module.exports.pathchNameLaundry = async (req, res) => {
+    try {
+        let id = req.params.id;
+        let { name, isHide, price, idGroup } = req.body;
+        let update = {
+            updateAt: Date.now()
+        };
+        if (name) {
+            update = { ...update, name: name }
+        };
+        if (isHide === true || isHide === false) {
+            update = { ...update, isHide: isHide }
+        };
+        if (price) {
+            update = { ...update, price: price }
+        };
+        if (idGroup) {
+            update = { ...update, idGroup: idGroup }
+        };
+        let nameLaundryUpdate = await NameLaundryModel.findByIdAndUpdate(id, {
+            $set: update
+        },
+            { new: true }
+        )
+        res.status(200).json({
+            success: true,
+            results: nameLaundryUpdate
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error
+        })
+    }
+}
