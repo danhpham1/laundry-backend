@@ -1,0 +1,24 @@
+const nodemailer = require('nodemailer');
+
+module.exports.sendMail = async (emailClient, username, name) => {
+    try {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'vippro01648356832@gmail.com',
+                pass: 'Hanhphucao1'
+            }
+        });
+        let mainOptions = {
+            from: 'Laundry',
+            to: emailClient,
+            subject: 'Đăng ký tài khoản',
+            text: 'Bạn nhận được tin nhắn từ danhpham511998@gmail.com',
+            html: `<b>Bạn đăng ký tài khoản thành công với Username:${username} và Tên là:${name}</b>`
+        }
+        await transporter.sendMail(mainOptions);
+        console.log("Send mail success");
+    } catch (error) {
+        console.log(error);
+    }
+}

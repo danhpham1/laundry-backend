@@ -24,10 +24,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    passwordTwo: {
-        type: String,
-        required: true
-    }
 })
 
 
