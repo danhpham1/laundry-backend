@@ -20,6 +20,9 @@ const GroupsLaundrySchema = new mongoose.Schema({
     isHide: {
         type: Boolean,
         default: false
+    },
+    idNameLaundryArray:{
+        type:Array,
     }
 })
 

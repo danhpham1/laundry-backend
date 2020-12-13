@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const LaundrySchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
     idUser: {
         type: mongoose.Types.ObjectId,
         required: true,
-    },
-    amount: {
-        type: String,
-        required: true
     },
     weight: {
         type: Number,
@@ -35,11 +28,17 @@ const LaundrySchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required: true,
     },
+    idNameLaundry:{
+        type:mongoose.Types.ObjectId,
+        required:true
+    },
     total: {
         type: Number,
         required: true
     }
 })
+
+LaundrySchema.plugin(aggregatePaginate);
 
 
 module.exports = mongoose.model('laundrys', LaundrySchema);

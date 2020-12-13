@@ -15,7 +15,18 @@ module.exports.getGroups = async (req, res) => {
             limit: 10
         };
     }
-    var groupAggregate = GroupLaundryModel.aggregate();
+    var groupAggregate = GroupLaundryModel.aggregate([
+        {
+            $lookup:{
+                from:'names_laundries',
+                let:{'idNameLaundryArray':'$idNameLaundryArray'},
+                pipeline:[
+                    {$match:{$expr:{$in:['$_id','$$idNameLaundryArray.idGroup']}}}
+                ],
+                as:'nameLaundryArrayInfo'
+            }
+        }
+    ]);
     GroupLaundryModel.aggregatePaginate(groupAggregate, options)
         .then(rs => {
             res.status(200).json({

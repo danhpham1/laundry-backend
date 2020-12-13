@@ -38,6 +38,7 @@ module.exports.postAuth = async (req,res)=>{
             let user = await UserModel.findOne({username:username});
             if(user && bcryptHelp.checkPassword(password,user.password)){
                 let dataUser = {
+                    idUser:user._id,
                     username:user.username,
                     name:user.name,
                     email:user.email,
@@ -47,7 +48,8 @@ module.exports.postAuth = async (req,res)=>{
                 let jwt = jwtHelp.signToken(dataUser);
                 res.status(200).json({
                     success:true,
-                    jwt:jwt
+                    jwt:jwt,
+                    user:dataUser
                 })
             }else{
                 res.status(401).json({
