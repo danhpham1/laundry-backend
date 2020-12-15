@@ -28,9 +28,9 @@ const LaundrySchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required: true,
     },
-    idNameLaundry:{
-        type:mongoose.Types.ObjectId,
-        required:true
+    idNameLaundry: {
+        type: mongoose.Types.ObjectId,
+        required: true
     },
     total: {
         type: Number,
@@ -41,4 +41,4 @@ const LaundrySchema = new mongoose.Schema({
 LaundrySchema.plugin(aggregatePaginate);
 
 
-module.exports = mongoose.model('laundrys', LaundrySchema);
+module.exports = mongoose.model('laundries', LaundrySchema);

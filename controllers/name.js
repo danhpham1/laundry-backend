@@ -39,12 +39,12 @@ module.exports.postNameLaundry = async (req, res) => {
         await GroupLaundryModel.findByIdAndUpdate(
             idGroup,
             {
-              $addToSet:{
-                idNameLaundryArray:{idGroup:mongoose.Types.ObjectId(nameLaundry._id)}
-              }  
+                $addToSet: {
+                    idNameLaundryArray: { idNameLaundry: mongoose.Types.ObjectId(nameLaundry._id) }
+                }
             },
             {
-                new:true
+                new: true
             }
         )
 
@@ -62,7 +62,7 @@ module.exports.postNameLaundry = async (req, res) => {
 }
 
 //patch name
-module.exports. pathchNameLaundry = async (req, res) => {
+module.exports.pathchNameLaundry = async (req, res) => {
     try {
         let id = req.params.id;
         let { name, isHide, price, idGroup } = req.body;
@@ -83,19 +83,19 @@ module.exports. pathchNameLaundry = async (req, res) => {
             //update group
             let nameGroupOld = await NameLaundryModel.findById(id);
             await GroupLaundryModel.update(
-                {_id:mongoose.Types.ObjectId(nameGroupOld.idGroup)},
+                { _id: mongoose.Types.ObjectId(nameGroupOld.idGroup) },
                 {
-                    $pull:{idNameLaundryArray:{idGroup:mongoose.Types.ObjectId(id)}},
+                    $pull: { idNameLaundryArray: { idNameLaundry: mongoose.Types.ObjectId(id) } },
                 },
-                { new:true },
+                { new: true },
             );
 
             await GroupLaundryModel.findByIdAndUpdate(
                 idGroup,
                 {
-                    $addToSet:{idNameLaundryArray:{idGroup:mongoose.Types.ObjectId(id)}}
+                    $addToSet: { idNameLaundryArray: { idNameLaundry: mongoose.Types.ObjectId(id) } }
                 },
-                {new:true}
+                { new: true }
             )
         };
         let nameLaundryUpdate = await NameLaundryModel.findByIdAndUpdate(id, {
@@ -116,24 +116,24 @@ module.exports. pathchNameLaundry = async (req, res) => {
 }
 
 //delete name
-module.exports.deleteNameLaundry = async (req,res)=>{
+module.exports.deleteNameLaundry = async (req, res) => {
     try {
-        if(req.params.id && req.body.idGroup){
+        if (req.params.id && req.body.idGroup) {
             //update group laundry
             await GroupLaundryModel.findByIdAndUpdate(
                 req.body.idGroup,
-                {$pull:{idNameLaundryArray:{idGroup:mongoose.Types.ObjectId(req.params.id)}}},
-                {new:true}
+                { $pull: { idNameLaundryArray: { idGroup: mongoose.Types.ObjectId(req.params.id) } } },
+                { new: true }
             )
 
             //delete name
             await NameLaundryModel.deleteOne({
-                _id:mongoose.Types.ObjectId(req.params.id)
+                _id: mongoose.Types.ObjectId(req.params.id)
             })
 
             res.status(200).json({
-                success:true,
-                message:"Delete name laundry success"
+                success: true,
+                message: "Delete name laundry success"
             })
         }
     } catch (error) {

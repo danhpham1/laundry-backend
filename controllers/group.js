@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const GroupLaundryModel = require('../models/group-laundry');
+const NameLaundryModel = require('../models/name-laundry');
 
 //get group list
 module.exports.getGroups = async (req, res) => {
@@ -17,13 +18,13 @@ module.exports.getGroups = async (req, res) => {
     }
     var groupAggregate = GroupLaundryModel.aggregate([
         {
-            $lookup:{
-                from:'names_laundries',
-                let:{'idNameLaundryArray':'$idNameLaundryArray'},
-                pipeline:[
-                    {$match:{$expr:{$in:['$_id','$$idNameLaundryArray.idGroup']}}}
+            $lookup: {
+                from: 'names_laundries',
+                let: { 'idNameLaundryArray': '$idNameLaundryArray' },
+                pipeline: [
+                    { $match: { $expr: { $in: ['$_id', '$$idNameLaundryArray.idNameLaundry'] } } }
                 ],
-                as:'nameLaundryArrayInfo'
+                as: 'nameLaundryArrayInfo'
             }
         }
     ]);
@@ -44,15 +45,15 @@ module.exports.getGroups = async (req, res) => {
 
 //process post group
 module.exports.postGroup = async (req, res) => {
-    let group = new GroupLaundryModel({
-        name: req.body.name
-    })
     try {
+        let group = new GroupLaundryModel({
+            name: req.body.name
+        });
         await group.save();
         res.status(200).json({
             success: true,
             results: group
-        })
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -87,6 +88,26 @@ module.exports.patchGroup = async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Please send name or isHide value to update '
+        })
+    }
+}
+
+//delete group
+module.exports.deleteGroup = async (req, res) => {
+    try {
+        let id = req.params.id;
+        if (id) {
+            await NameLaundryModel.deleteMany({ idGroup: mongoose.Types.ObjectId(id) });
+            await GroupLaundryModel.deleteOne({ _id: mongoose.Types.ObjectId(id) });
+            res.status(200).json({
+                success: true,
+                message: 'delete group and name related success'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error
         })
     }
 }
