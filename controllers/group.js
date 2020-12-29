@@ -16,6 +16,13 @@ module.exports.getGroups = async (req, res) => {
             limit: 10
         };
     }
+    if (req.query.name) {
+        options = {
+            ...options,
+            sort: { name: req.query.name }
+        }
+        console.log(options)
+    }
     var groupAggregate = GroupLaundryModel.aggregate([
         {
             $lookup: {
