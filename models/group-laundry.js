@@ -6,6 +6,7 @@ const GroupsLaundrySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
     },
     createAt: {
         type: Date,
@@ -21,8 +22,8 @@ const GroupsLaundrySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    idNameLaundryArray:{
-        type:Array,
+    idNameLaundryArray: {
+        type: Array,
     }
 })
 
