@@ -54,7 +54,8 @@ module.exports.getGroups = async (req, res) => {
 module.exports.postGroup = async (req, res) => {
     try {
         let group = new GroupLaundryModel({
-            name: req.body.name
+            name: req.body.name,
+            createAt: Date.now()
         });
         await group.save();
         res.status(200).json({
