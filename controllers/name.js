@@ -10,7 +10,18 @@ module.exports.getNameLaundry = async (req, res) => {
             page: req.query.currentPage ? req.query.currentPage : 1,
             limit: req.query.limit ? req.query.limit : 10
         };
-        let nameLaundryAggregate = NameLaundryModel.aggregate();
+        let nameLaundryAggregate = NameLaundryModel.aggregate(
+            [
+                {
+                    $lookup: {
+                        from: 'groups_laundries',
+                        localField: 'idGroup',
+                        foreignField: '_id',
+                        as: 'groupInfo'
+                    }
+                },
+            ]
+        );
         let docs = await NameLaundryModel.aggregatePaginate(nameLaundryAggregate, options);
         res.status(200).json({
             success: true,
