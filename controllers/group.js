@@ -119,3 +119,27 @@ module.exports.deleteGroup = async (req, res) => {
         })
     }
 }
+
+module.exports.getAllGroups = async (req, res) => {
+    try {
+        let listGroups = await GroupLaundryModel.aggregate(
+            [
+                {
+                    $project: {
+                        _id: 1,
+                        name: 1
+                    }
+                }
+            ]
+        )
+        res.status(200).json({
+            success: true,
+            data: listGroups
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error
+        })
+    }
+}

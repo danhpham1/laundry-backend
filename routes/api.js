@@ -12,12 +12,14 @@ const laundryController = require('../controllers/laundry');
 
 //api group laundry
 route.get('/groups', groupController.getGroups);
+route.get('/groups/all', groupController.getAllGroups);
 route.post('/groups', groupController.postGroup);
 route.patch('/group/:id', groupController.patchGroup);
 route.delete('/group/:id', groupController.deleteGroup);
 
 //api name laundry
 route.get('/names', nameController.getNameLaundry);
+route.get('/names/all', nameController.getNameLaundryAll);
 route.post('/names', nameController.postNameLaundry);
 route.patch('/name/:id', nameController.pathchNameLaundry);
 route.delete('/name/:id', nameController.deleteNameLaundry);

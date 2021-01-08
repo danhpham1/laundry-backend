@@ -43,7 +43,8 @@ module.exports.postNameLaundry = async (req, res) => {
             name: name,
             idGroup: idGroup,
             price: req.body.price.toFixed(3),
-            isHide: isHide
+            isHide: isHide,
+            createAt: Date.now()
         });
 
         //update group laundries
@@ -147,6 +148,41 @@ module.exports.deleteNameLaundry = async (req, res) => {
                 message: "Delete name laundry success"
             })
         }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error
+        })
+    }
+}
+
+module.exports.getNameLaundryAll = async (req, res) => {
+    try {
+        let listName = await NameLaundryModel.aggregate(
+            [
+                {
+                    $lookup: {
+                        from: 'groups_laundries',
+                        localField: 'idGroup',
+                        foreignField: '_id',
+                        as: 'groupInfo'
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        name: 1,
+                        idGroup: 1,
+                        price: 1,
+                        groupInfo: 1
+                    }
+                }
+            ]
+        );
+        res.status(200).json({
+            success: true,
+            data: listName
+        })
     } catch (error) {
         res.status(500).json({
             success: false,
