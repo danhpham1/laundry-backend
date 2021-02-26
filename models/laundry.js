@@ -24,12 +24,12 @@ const LaundrySchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
-    idGroup: {
-        type: mongoose.Types.ObjectId,
+    group: {
+        type: String,
         required: true,
     },
-    idNameLaundry: {
-        type: mongoose.Types.ObjectId,
+    name: {
+        type: String,
         required: true
     },
     total: {

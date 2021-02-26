@@ -8,8 +8,8 @@ module.exports.postLaundry = async (req, res) => {
             idUser,
             weight,
             price,
-            idGroup,
-            idNameLaundry,
+            group,
+            name,
             total
         } = req.body;
 
@@ -17,8 +17,8 @@ module.exports.postLaundry = async (req, res) => {
             idUser: idUser,
             weight: weight,
             price: price,
-            idGroup: idGroup,
-            idNameLaundry: idNameLaundry,
+            group: group,
+            name: name,
             total: total
         });
 
@@ -70,45 +70,18 @@ module.exports.getLaundry = async (req, res) => {
                 $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$userInfo", 0] }, "$$ROOT"] } }
             },
             {
-                $lookup:
-                {
-                    from: "groups_laundries",
-                    localField: 'idGroup',
-                    foreignField: '_id',
-                    as: 'groupInfo'
-                },
-
-            },
-            {
-                $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$groupInfo", 0] }, "$$ROOT"] } }
-            },
-            {
-                $lookup:
-                {
-                    from: "names_laundries",
-                    localField: 'idNameLaundry',
-                    foreignField: '_id',
-                    as: 'nameLaundryInfo'
-                },
-
-            },
-            {
-                $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$nameLaundryInfo", 0] }, "$$ROOT"] } }
-            },
-            {
                 $project:
                 {
                     'username': 1,
                     '_id': 1,
                     'name': 1,
-                    'email': 1,
                     'createAt': 1,
                     'updateAt': 1,
                     'weight': 1,
                     'price': 1,
                     'total': 1,
-                    'groupInfo': 1,
-                    'nameLaundryInfo': 1
+                    'group': 1,
+                    'name': 1
                 }
             }
         ]);

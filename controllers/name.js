@@ -130,10 +130,10 @@ module.exports.pathchNameLaundry = async (req, res) => {
 //delete name
 module.exports.deleteNameLaundry = async (req, res) => {
     try {
-        if (req.params.id && req.body.idGroup) {
+        if (req.params.id && req.query.idGroup) {
             //update group laundry
             await GroupLaundryModel.findByIdAndUpdate(
-                req.body.idGroup,
+                req.query.idGroup,
                 { $pull: { idNameLaundryArray: { idGroup: mongoose.Types.ObjectId(req.params.id) } } },
                 { new: true }
             )
