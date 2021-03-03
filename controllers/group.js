@@ -125,9 +125,18 @@ module.exports.getAllGroups = async (req, res) => {
         let listGroups = await GroupLaundryModel.aggregate(
             [
                 {
-                    $project: {
-                        _id: 1,
-                        name: 1
+                    $lookup: {
+                        from: 'names_laundries',
+                        localField: '_id',
+                        foreignField: 'idGroup',
+                        as: 'namesArray'
+                    }
+                },
+                {
+                    $project:{
+                        _id:1,
+                        name:1,
+                        namesArray:1
                     }
                 }
             ]
